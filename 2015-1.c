@@ -1,8 +1,12 @@
 #include <stdio.h>
-#define BUFF_SIZE 1024
+#define BUFF_SIZE 4034
 
 int read_map(const char *filepath)
 {
+  
+  int i = 0;
+  int floor = 0;
+  
   FILE *file = fopen(filepath,"r");
 
   if(file == NULL)
@@ -15,10 +19,16 @@ int read_map(const char *filepath)
 
   while(fgets(buff, sizeof(buff), file) != NULL)
   {
-    printf("%s", buff);
+    
+    while(buff[i] != '\0')
+    {    
+    if(buff[i] == '(') floor++;
+    if(buff[i] == ')') floor--;
+    i++;
+    }
   }
 
-  return 0;
+  return floor;
 }
 
 int count_floors(char *str)
@@ -47,6 +57,7 @@ int main(void)
   count_floors(my_str3);// -1
   count_floors(my_str4); // -3
 
-  read_map("2015-1.txt");
+  int map = read_map("2015-1.txt");
+  printf("On the map santa is at floor: %d\n", map);
     return 0;
 }
